@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plataforma de Examen Tipo Test</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg-orb orb-1" aria-hidden="true"></div>
+    <div class="bg-orb orb-2" aria-hidden="true"></div>
+
+    <div class="app-shell">
+      <header class="app-header">
+        <div class="logo-wrap" aria-label="Logo institucional">
+          <img
+            src="logo.png"
+            alt="Logo de la institución"
+            class="logo"
+            onerror="this.style.display='none'; this.parentElement.querySelector('.logo-fallback').style.display='grid';"
+          />
+          <div class="logo-fallback" aria-hidden="true">
+            <span>DA</span>
+          </div>
+        </div>
+
+        <div>
+          <p class="eyebrow">Examen oficial</p>
+          <h1>Examen Tipo Test</h1>
+          <p class="subtitle">Completa la evaluación y obtén tu resultado al instante.</p>
+        </div>
+      </header>
+
+      <main>
+        <section id="screen-start" class="screen active" aria-labelledby="title-start">
+          <h2 id="title-start">Comenzar examen</h2>
+          <p class="text-muted">Introduce tu nombre y apellidos para iniciar.</p>
+          <form id="start-form" novalidate>
+            <label for="fullName">Nombre y apellidos</label>
+            <input
+              id="fullName"
+              name="fullName"
+              type="text"
+              placeholder="Ej. Ana López Pérez"
+              required
+              autocomplete="name"
+            />
+            <p id="name-error" class="error" role="alert"></p>
+            <button type="submit" class="btn btn-primary">Comenzar</button>
+          </form>
+        </section>
+
+        <section id="screen-exam" class="screen" aria-labelledby="title-exam">
+          <div class="exam-topbar">
+            <h2 id="title-exam">Versión <span id="exam-version">-</span></h2>
+            <p class="progress" id="progress">1/1</p>
+          </div>
+
+          <article class="question-card">
+            <p class="question-title" id="question-text">Pregunta</p>
+            <form id="options-form" class="options" aria-label="Opciones de respuesta"></form>
+          </article>
+
+          <p id="exam-error" class="error" role="alert"></p>
+
+          <div class="actions">
+            <button id="btn-prev" type="button" class="btn">Anterior</button>
+            <button id="btn-next" type="button" class="btn">Siguiente</button>
+            <button id="btn-finish" type="button" class="btn btn-primary">Finalizar</button>
+          </div>
+        </section>
+
+        <section id="screen-result" class="screen" aria-labelledby="title-result">
+          <h2 id="title-result">Resultado</h2>
+          <div class="result-card" id="result-card">
+            <p><strong>Nombre:</strong> <span id="result-name"></span></p>
+            <p><strong>Aciertos:</strong> <span id="result-score"></span></p>
+            <p><strong>Porcentaje:</strong> <span id="result-percent"></span></p>
+            <p id="result-status" class="status"></p>
+          </div>
+          <button id="btn-restart" type="button" class="btn btn-primary">Reiniciar</button>
+        </section>
+      </main>
+    </div>
+
+    <script src="script.js" defer></script>
+  </body>
+</html>
