@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plataforma de Examen Tipo Test</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="app-header">
+        <img
+          src="logo.png"
+          alt="Logo de la institución"
+          class="logo"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';"
+        />
+        <span class="logo-fallback" aria-hidden="true">LOGO</span>
+        <div>
+          <h1>Examen Tipo Test</h1>
+          <p class="subtitle">Evaluación estática (HTML + CSS + JS)</p>
+        </div>
+      </header>
+
+      <main>
+        <section id="screen-start" class="screen active" aria-labelledby="title-start">
+          <h2 id="title-start">Comenzar examen</h2>
+          <p>Completa tus datos para iniciar.</p>
+          <form id="start-form" novalidate>
+            <label for="fullName">Nombre y apellidos</label>
+            <input
+              id="fullName"
+              name="fullName"
+              type="text"
+              placeholder="Ej. Ana López Pérez"
+              required
+              autocomplete="name"
+            />
+            <p id="name-error" class="error" role="alert"></p>
+            <button type="submit" class="btn btn-primary">Comenzar</button>
+          </form>
+        </section>
+
+        <section id="screen-exam" class="screen" aria-labelledby="title-exam">
+          <div class="exam-topbar">
+            <h2 id="title-exam">Versión <span id="exam-version">-</span></h2>
+            <p class="progress" id="progress">1/1</p>
+          </div>
+
+          <article class="question-card">
+            <p class="question-title" id="question-text">Pregunta</p>
+            <form id="options-form" class="options" aria-label="Opciones de respuesta"></form>
+          </article>
+
+          <p id="exam-error" class="error" role="alert"></p>
+
+          <div class="actions">
+            <button id="btn-prev" type="button" class="btn">Anterior</button>
+            <button id="btn-next" type="button" class="btn">Siguiente</button>
+            <button id="btn-finish" type="button" class="btn btn-primary">Finalizar</button>
+          </div>
+        </section>
+
+        <section id="screen-result" class="screen" aria-labelledby="title-result">
+          <h2 id="title-result">Resultado</h2>
+          <div class="result-card" id="result-card">
+            <p><strong>Nombre:</strong> <span id="result-name"></span></p>
+            <p><strong>Aciertos:</strong> <span id="result-score"></span></p>
+            <p><strong>Porcentaje:</strong> <span id="result-percent"></span></p>
+            <p id="result-status" class="status"></p>
+          </div>
+          <button id="btn-restart" type="button" class="btn btn-primary">Reiniciar</button>
+        </section>
+      </main>
+
+      <footer class="app-footer">
+        <p>
+          Despliegue en Vercel (Static site): sube estos 3 archivos (<code>index.html</code>,
+          <code>styles.css</code>, <code>script.js</code>) y opcionalmente <code>logo.png</code>/<code>logo.svg</code>
+          en la raíz del proyecto. En Vercel crea un nuevo proyecto, selecciona el repositorio y deja
+          vacíos los campos de Build Command y Output Directory.
+        </p>
+      </footer>
+    </div>
+
+    <script src="script.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,245 @@
+:root {
+  --brand: #b0161d;
+  --brand-2: #d9b26c;
+  --bg: #f4f6fb;
+  --surface: #ffffff;
+  --text: #1d2433;
+  --muted: #59637a;
+  --ok: #1f9d52;
+  --bad: #cc2e2e;
+  --ring: rgba(176, 22, 29, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  color: var(--text);
+  background: linear-gradient(180deg, #f8fafc, var(--bg));
+}
+
+.app-shell {
+  width: min(920px, 94vw);
+  margin: 2rem auto;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.logo {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  border-radius: 50%;
+  border: 2px solid var(--brand-2);
+  background: #fff;
+}
+
+.logo-fallback {
+  display: none;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 2px dashed var(--brand-2);
+  color: var(--brand);
+  font-weight: 700;
+  place-items: center;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+.subtitle {
+  color: var(--muted);
+  margin-top: 0.25rem;
+}
+
+main {
+  background: var(--surface);
+  border: 1px solid #e4e8f0;
+  border-radius: 16px;
+  box-shadow: 0 14px 32px rgba(26, 36, 55, 0.08);
+  padding: 1.5rem;
+}
+
+.screen {
+  display: none;
+}
+
+.screen.active {
+  display: block;
+}
+
+label {
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 0.45rem;
+  font-weight: 600;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid #bec8d8;
+  border-radius: 10px;
+  font-size: 1rem;
+}
+
+input[type="text"]:focus-visible {
+  outline: 3px solid var(--ring);
+  border-color: var(--brand);
+}
+
+.exam-topbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.progress {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.question-card {
+  border: 1px solid #dbe1ed;
+  border-radius: 14px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.question-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.options {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  border: 1px solid #ccd4e3;
+  border-radius: 10px;
+  padding: 0.7rem;
+}
+
+.option:has(input:focus-visible) {
+  outline: 3px solid var(--ring);
+  border-color: var(--brand);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.btn {
+  border: 1px solid #b9c5da;
+  background: #fff;
+  color: var(--text);
+  padding: 0.7rem 1rem;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn:focus-visible {
+  outline: 3px solid var(--ring);
+}
+
+.btn-primary {
+  border-color: var(--brand);
+  background: var(--brand);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: #8f1117;
+}
+
+.error {
+  min-height: 1.25rem;
+  margin-top: 0.6rem;
+  color: var(--bad);
+  font-weight: 600;
+}
+
+.result-card {
+  margin: 1rem 0;
+  border: 2px solid #d0d7e6;
+  border-radius: 14px;
+  padding: 1rem;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.result-card.pass {
+  border-color: color-mix(in srgb, var(--ok), white 40%);
+  background: #effcf5;
+}
+
+.result-card.fail {
+  border-color: color-mix(in srgb, var(--bad), white 40%);
+  background: #fff2f2;
+}
+
+.status {
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.status.pass {
+  color: var(--ok);
+}
+
+.status.fail {
+  color: var(--bad);
+}
+
+.app-footer {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin-top: 1rem;
+}
+
+@media (max-width: 640px) {
+  .app-shell {
+    margin: 1rem auto;
+  }
+
+  main {
+    padding: 1rem;
+  }
+
+  .app-header {
+    align-items: flex-start;
+  }
+
+  .logo,
+  .logo-fallback {
+    width: 60px;
+    height: 60px;
+  }
+}
