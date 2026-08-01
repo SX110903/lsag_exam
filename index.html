@@ -3,86 +3,113 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Plataforma de Examen Tipo Test</title>
-    <link rel="stylesheet" href="styles.css" />
+    <title>EXAMEN FINAL SADJ</title>
+    <meta
+      name="description"
+      content="Examen final de la Academia del San Andreas Department of Justice."
+    />
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
   </head>
   <body>
-    <div class="app-shell">
-      <header class="app-header">
-        <img
-          src="logo.png"
-          alt="Logo de la institución"
-          class="logo"
-          onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';"
-        />
-        <span class="logo-fallback" aria-hidden="true">LOGO</span>
+    <div class="app">
+      <header class="app__header">
+        <img class="app__logo" src="assets/img/logo.svg" alt="Emblema del SADJ" />
         <div>
-          <h1>Examen Tipo Test</h1>
-          <p class="subtitle">Evaluación estática (HTML + CSS + JS)</p>
+          <h1 class="app__title">EXAMEN FINAL SADJ</h1>
+          <p class="app__subtitle">San Andreas Department of Justice — Academia</p>
         </div>
       </header>
 
-      <main>
-        <section id="screen-start" class="screen active" aria-labelledby="title-start">
-          <h2 id="title-start">Comenzar examen</h2>
-          <p>Completa tus datos para iniciar.</p>
-          <form id="start-form" novalidate>
-            <label for="fullName">Nombre y apellidos</label>
+      <main class="app__main">
+        <!-- Pantalla 1: identificación del postulante -->
+        <section id="screen-start" class="screen is-active" aria-labelledby="start-title">
+          <h2 id="start-title" class="screen__title">Comenzar la evaluación</h2>
+          <p class="screen__lead">
+            Se te asignará al azar una de las tres versiones del examen final. Cada versión tiene
+            20 preguntas de alternativas con una única respuesta correcta.
+          </p>
+
+          <form id="start-form" class="form" novalidate>
+            <label class="form__label" for="candidate-name">Nombre y apellidos</label>
             <input
-              id="fullName"
-              name="fullName"
+              id="candidate-name"
+              class="form__input"
               type="text"
-              placeholder="Ej. Ana López Pérez"
-              required
+              name="candidate"
+              placeholder="Ej. Sergio Ramírez"
               autocomplete="name"
+              required
             />
-            <p id="name-error" class="error" role="alert"></p>
-            <button type="submit" class="btn btn-primary">Comenzar</button>
+            <p id="start-error" class="message message--error" role="alert"></p>
+            <button type="submit" class="btn btn--primary">Iniciar examen</button>
           </form>
+
+          <ul class="rules">
+            <li>Las preguntas y las alternativas se presentan en orden aleatorio.</li>
+            <li>Puedes navegar libremente y cambiar tus respuestas antes de finalizar.</li>
+            <li>Debes responder las 20 preguntas para poder entregar el examen.</li>
+          </ul>
         </section>
 
-        <section id="screen-exam" class="screen" aria-labelledby="title-exam">
-          <div class="exam-topbar">
-            <h2 id="title-exam">Versión <span id="exam-version">-</span></h2>
-            <p class="progress" id="progress">1/1</p>
+        <!-- Pantalla 2: rendición -->
+        <section id="screen-exam" class="screen" aria-labelledby="exam-title">
+          <div class="exam__topbar">
+            <h2 id="exam-title" class="screen__title">Examen</h2>
+            <p id="exam-progress" class="exam__progress">Pregunta 1 de 20</p>
           </div>
 
-          <article class="question-card">
-            <p class="question-title" id="question-text">Pregunta</p>
-            <form id="options-form" class="options" aria-label="Opciones de respuesta"></form>
+          <div class="progress-track" role="presentation">
+            <div id="exam-progress-bar" class="progress-track__bar"></div>
+          </div>
+
+          <article class="question">
+            <p id="question-number" class="question__number">Pregunta 1</p>
+            <h3 id="question-text" class="question__text">Enunciado</h3>
+            <div id="option-list" class="option-list" role="radiogroup" aria-labelledby="question-text"></div>
           </article>
 
-          <p id="exam-error" class="error" role="alert"></p>
+          <p id="exam-error" class="message message--error" role="alert"></p>
 
-          <div class="actions">
-            <button id="btn-prev" type="button" class="btn">Anterior</button>
+          <div class="exam__actions">
+            <button id="btn-previous" type="button" class="btn">Anterior</button>
             <button id="btn-next" type="button" class="btn">Siguiente</button>
-            <button id="btn-finish" type="button" class="btn btn-primary">Finalizar</button>
+            <button id="btn-finish" type="button" class="btn btn--primary">Finalizar examen</button>
           </div>
+
+          <nav class="navigator" aria-label="Navegación entre preguntas">
+            <p class="navigator__title">Preguntas</p>
+            <div id="question-navigator" class="navigator__grid"></div>
+          </nav>
         </section>
 
-        <section id="screen-result" class="screen" aria-labelledby="title-result">
-          <h2 id="title-result">Resultado</h2>
-          <div class="result-card" id="result-card">
-            <p><strong>Nombre:</strong> <span id="result-name"></span></p>
-            <p><strong>Aciertos:</strong> <span id="result-score"></span></p>
-            <p><strong>Porcentaje:</strong> <span id="result-percent"></span></p>
-            <p id="result-status" class="status"></p>
+        <!-- Pantalla 3: resultado -->
+        <section id="screen-result" class="screen" aria-labelledby="result-title">
+          <h2 id="result-title" class="screen__title">Resultado</h2>
+
+          <div id="result-card" class="result">
+            <p id="result-status" class="result__status">—</p>
+            <dl class="result__grid">
+              <div><dt>Postulante</dt><dd id="result-candidate">—</dd></div>
+              <div><dt>Versión</dt><dd id="result-exam">—</dd></div>
+              <div><dt>Respuestas correctas</dt><dd id="result-score">—</dd></div>
+              <div><dt>Porcentaje</dt><dd id="result-percent">—</dd></div>
+            </dl>
+            <p id="result-threshold" class="result__threshold"></p>
           </div>
-          <button id="btn-restart" type="button" class="btn btn-primary">Reiniciar</button>
+
+          <h3 class="screen__subtitle">Revisión de respuestas</h3>
+          <div id="result-review" class="review"></div>
+
+          <button id="btn-restart" type="button" class="btn btn--primary">Rendir otra vez</button>
         </section>
       </main>
 
-      <footer class="app-footer">
-        <p>
-          Despliegue en Vercel (Static site): sube estos 3 archivos (<code>index.html</code>,
-          <code>styles.css</code>, <code>script.js</code>) y opcionalmente <code>logo.png</code>/<code>logo.svg</code>
-          en la raíz del proyecto. En Vercel crea un nuevo proyecto, selecciona el repositorio y deja
-          vacíos los campos de Build Command y Output Directory.
-        </p>
+      <footer class="app__footer">
+        <p>Material de estudio interno — Academia SADJ.</p>
       </footer>
     </div>
 
-    <script src="script.js" defer></script>
+    <script type="module" src="src/main.js"></script>
   </body>
 </html>
