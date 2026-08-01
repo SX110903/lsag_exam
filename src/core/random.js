@@ -1,10 +1,5 @@
 /** Utilidades de aleatorización. */
 
-/** Devuelve un elemento al azar del arreglo. */
-export function pickRandom(items) {
-  return items[Math.floor(Math.random() * items.length)];
-}
-
 /** Devuelve una copia barajada del arreglo (Fisher-Yates). */
 export function shuffle(items) {
   const copy = [...items];

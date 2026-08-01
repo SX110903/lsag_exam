@@ -3,111 +3,143 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>EXAMEN FINAL SADJ</title>
-    <meta
-      name="description"
-      content="Examen final de la Academia del San Andreas Department of Justice."
-    />
+    <title>Examen - District Attorney Office</title>
+    <meta name="description" content="Examen final de la Academia SADJ — District Attorney's Office, County of Los Santos." />
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="assets/css/styles.css" />
   </head>
   <body>
-    <div class="app">
-      <header class="app__header">
-        <img class="app__logo" src="assets/img/logo.svg" alt="Emblema del SADJ" />
-        <div>
-          <h1 class="app__title">EXAMEN FINAL SADJ</h1>
-          <p class="app__subtitle">San Andreas Department of Justice — Academia</p>
+    <!-- CABECERA -->
+    <div class="app-header">
+      <img src="assets/img/logo.png" alt="DA Office Logo" />
+      <div class="header-text">
+        <h1>DISTRICT ATTORNEY'S OFFICE</h1>
+        <p>County of Los Santos - Examen Oficial</p>
+      </div>
+    </div>
+
+    <!-- TEMPORIZADOR -->
+    <div class="timer-bar hidden" id="timerBar">
+      <div class="info" id="examInfo"></div>
+      <div class="timer" id="timerDisplay">20:00</div>
+    </div>
+
+    <!-- PROGRESO -->
+    <div class="progress-wrap hidden" id="progressWrap">
+      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width: 0%"></div></div>
+    </div>
+
+    <!-- PANTALLA DE INICIO -->
+    <div id="startScreen" class="start-screen">
+      <img src="assets/img/logo.png" alt="DA Logo" />
+      <h2>Examen Oficial</h2>
+      <p class="subtitle">District Attorney's Office - County of Los Santos</p>
+
+      <label for="fullName">Nombre Completo</label>
+      <input type="text" id="fullName" placeholder="Tu nombre completo" autocomplete="name" />
+
+      <label for="evaluatorName">Nombre del Evaluador</label>
+      <input type="text" id="evaluatorName" placeholder="Nombre del evaluador" />
+
+      <label for="versionSelect">Seccion del Examen</label>
+      <select id="versionSelect"></select>
+
+      <p class="form-error" id="startError" role="alert"></p>
+      <button class="btn-start" id="btnStart" type="button">Comenzar Examen</button>
+    </div>
+
+    <!-- PANTALLA DE PREGUNTAS -->
+    <div id="questionScreen" class="hidden">
+      <div class="question-container">
+        <div class="q-card">
+          <div class="q-number" id="qNumber"></div>
+          <div class="q-text" id="qText"></div>
+          <div class="options" id="optionsContainer"></div>
         </div>
-      </header>
+        <div class="nav-row">
+          <button class="nav-btn btn-prev" id="btnPrev" type="button">Anterior</button>
+          <button class="nav-btn btn-next" id="btnNext" type="button">Siguiente</button>
+        </div>
+        <div class="q-grid" id="qGrid"></div>
+      </div>
+    </div>
 
-      <main class="app__main">
-        <!-- Pantalla 1: identificación del postulante -->
-        <section id="screen-start" class="screen is-active" aria-labelledby="start-title">
-          <h2 id="start-title" class="screen__title">Comenzar la evaluación</h2>
-          <p class="screen__lead">
-            Se te asignará al azar una de las tres versiones del examen final. Cada versión tiene
-            20 preguntas de alternativas con una única respuesta correcta.
-          </p>
-
-          <form id="start-form" class="form" novalidate>
-            <label class="form__label" for="candidate-name">Nombre y apellidos</label>
-            <input
-              id="candidate-name"
-              class="form__input"
-              type="text"
-              name="candidate"
-              placeholder="Ej. Sergio Ramírez"
-              autocomplete="name"
-              required
-            />
-            <p id="start-error" class="message message--error" role="alert"></p>
-            <button type="submit" class="btn btn--primary">Iniciar examen</button>
-          </form>
-
-          <ul class="rules">
-            <li>Las preguntas y las alternativas se presentan en orden aleatorio.</li>
-            <li>Puedes navegar libremente y cambiar tus respuestas antes de finalizar.</li>
-            <li>Debes responder las 20 preguntas para poder entregar el examen.</li>
-          </ul>
-        </section>
-
-        <!-- Pantalla 2: rendición -->
-        <section id="screen-exam" class="screen" aria-labelledby="exam-title">
-          <div class="exam__topbar">
-            <h2 id="exam-title" class="screen__title">Examen</h2>
-            <p id="exam-progress" class="exam__progress">Pregunta 1 de 20</p>
+    <!-- CERTIFICADO -->
+    <div id="resultsScreen" class="results-screen hidden">
+      <div class="certificate">
+        <div class="cert-border">
+          <div class="cert-inner">
+            <div class="cert-ornament-top"></div>
+            <img src="assets/img/logo.png" alt="DA Logo" class="cert-logo" />
+            <div class="cert-title">DISTRICT ATTORNEY'S OFFICE</div>
+            <div class="cert-subtitle">County of Los Santos</div>
+            <div class="cert-divider"></div>
+            <div class="cert-heading">CERTIFICADO DE EVALUACION</div>
+            <div class="cert-section-name" id="certSection"></div>
+            <div class="cert-divider-thin"></div>
+            <div class="cert-label">Se certifica que</div>
+            <div class="cert-student-name" id="certStudentName"></div>
+            <div class="cert-label">ha obtenido la calificacion de</div>
+            <div id="certGradeBadge" class="cert-grade"></div>
+            <div class="cert-stats-row">
+              <div class="cert-stat">
+                <span class="cert-stat-val" id="cCorrect">0</span>
+                <span class="cert-stat-lbl">Correctas</span>
+              </div>
+              <div class="cert-stat">
+                <span class="cert-stat-val" id="cTotal">0</span>
+                <span class="cert-stat-lbl">Total</span>
+              </div>
+              <div class="cert-stat">
+                <span class="cert-stat-val" id="cTime">0</span>
+                <span class="cert-stat-lbl">Tiempo</span>
+              </div>
+            </div>
+            <div class="cert-divider-thin"></div>
+            <div class="cert-label">Evaluado por</div>
+            <div class="cert-evaluator-name" id="certEvaluatorName"></div>
+            <div class="cert-date" id="certDate"></div>
+            <div class="cert-ornament-bottom"></div>
           </div>
+        </div>
+      </div>
+      <div class="results-btns">
+        <button class="btn-review" id="btnReview" type="button">Ver Examen</button>
+        <button class="btn-restart" id="btnRestart" type="button">Nuevo Examen</button>
+      </div>
+    </div>
 
-          <div class="progress-track" role="presentation">
-            <div id="exam-progress-bar" class="progress-track__bar"></div>
-          </div>
+    <!-- REVISION -->
+    <div id="reviewScreen" class="hidden">
+      <div class="review-screen">
+        <div class="review-header">
+          <h2>Revision del Examen</h2>
+          <button class="btn-back-results" id="btnBackResults" type="button">Volver a Resultados</button>
+        </div>
+        <div class="review-summary" id="reviewSummary"></div>
+        <div id="reviewList"></div>
+        <div style="text-align: center; margin-top: 24px">
+          <button class="btn-back-results" id="btnBackResults2" type="button">Volver a Resultados</button>
+        </div>
+      </div>
+    </div>
 
-          <article class="question">
-            <p id="question-number" class="question__number">Pregunta 1</p>
-            <h3 id="question-text" class="question__text">Enunciado</h3>
-            <div id="option-list" class="option-list" role="radiogroup" aria-labelledby="question-text"></div>
-          </article>
-
-          <p id="exam-error" class="message message--error" role="alert"></p>
-
-          <div class="exam__actions">
-            <button id="btn-previous" type="button" class="btn">Anterior</button>
-            <button id="btn-next" type="button" class="btn">Siguiente</button>
-            <button id="btn-finish" type="button" class="btn btn--primary">Finalizar examen</button>
-          </div>
-
-          <nav class="navigator" aria-label="Navegación entre preguntas">
-            <p class="navigator__title">Preguntas</p>
-            <div id="question-navigator" class="navigator__grid"></div>
-          </nav>
-        </section>
-
-        <!-- Pantalla 3: resultado -->
-        <section id="screen-result" class="screen" aria-labelledby="result-title">
-          <h2 id="result-title" class="screen__title">Resultado</h2>
-
-          <div id="result-card" class="result">
-            <p id="result-status" class="result__status">—</p>
-            <dl class="result__grid">
-              <div><dt>Postulante</dt><dd id="result-candidate">—</dd></div>
-              <div><dt>Versión</dt><dd id="result-exam">—</dd></div>
-              <div><dt>Respuestas correctas</dt><dd id="result-score">—</dd></div>
-              <div><dt>Porcentaje</dt><dd id="result-percent">—</dd></div>
-            </dl>
-            <p id="result-threshold" class="result__threshold"></p>
-          </div>
-
-          <h3 class="screen__subtitle">Revisión de respuestas</h3>
-          <div id="result-review" class="review"></div>
-
-          <button id="btn-restart" type="button" class="btn btn--primary">Rendir otra vez</button>
-        </section>
-      </main>
-
-      <footer class="app__footer">
-        <p>Material de estudio interno — Academia SADJ.</p>
-      </footer>
+    <!-- MODAL -->
+    <div id="confirmModal" class="modal-overlay hidden">
+      <div class="modal-box">
+        <h3>Enviar Examen</h3>
+        <p id="modalMsg"></p>
+        <div class="modal-btns">
+          <button class="modal-cancel" id="btnModalCancel" type="button">Cancelar</button>
+          <button class="modal-confirm" id="btnModalConfirm" type="button">Enviar</button>
+        </div>
+      </div>
     </div>
 
     <script type="module" src="src/main.js"></script>

@@ -4,87 +4,82 @@ import { OPTION_LABELS } from "../core/config.js";
 import { byId, clear, createElement } from "./dom.js";
 
 /**
- * @param {{onAnswer:(optionIndex:number)=>void, onNavigate:(questionIndex:number)=>void}} handlers
+ * @param {{onAnswer:(optionIndex:number)=>void, onNavigate:(questionIndex:number)=>void, onSubmit:()=>void, onNext:()=>void}} handlers
  */
-export function createExamView({ onAnswer, onNavigate }) {
+export function createExamView({ onAnswer, onNavigate, onSubmit, onNext }) {
   const elements = {
-    examTitle: byId("exam-title"),
-    progress: byId("exam-progress"),
-    progressBar: byId("exam-progress-bar"),
-    questionNumber: byId("question-number"),
-    questionText: byId("question-text"),
-    optionList: byId("option-list"),
-    navigator: byId("question-navigator"),
-    error: byId("exam-error"),
-    buttonPrevious: byId("btn-previous"),
-    buttonNext: byId("btn-next"),
+    examInfo: byId("examInfo"),
+    progressFill: byId("progressFill"),
+    qNumber: byId("qNumber"),
+    qText: byId("qText"),
+    options: byId("optionsContainer"),
+    grid: byId("qGrid"),
+    btnNext: byId("btnNext"),
   };
 
   function renderOptions(item) {
-    clear(elements.optionList);
+    clear(elements.options);
 
     item.options.forEach((option, optionIndex) => {
-      const inputId = `option-${optionIndex}`;
-
-      const input = createElement("input", {
-        attrs: { type: "radio", name: "option", id: inputId, value: String(optionIndex) },
-      });
-      input.checked = item.selectedIndex === optionIndex;
-      input.addEventListener("change", () => onAnswer(optionIndex));
-
-      const label = createElement("label", { className: "option", attrs: { for: inputId } }, [
-        input,
-        createElement("span", { className: "option__label", text: OPTION_LABELS[optionIndex] }),
-        createElement("span", { className: "option__text", text: option.text }),
+      const button = createElement("button", { className: "opt-btn", attrs: { type: "button" } }, [
+        createElement("span", { className: "letter", text: OPTION_LABELS[optionIndex] }),
+        createElement("span", { text: option.text }),
       ]);
 
-      elements.optionList.append(label);
+      button.classList.toggle("selected", item.selectedIndex === optionIndex);
+      button.addEventListener("click", () => onAnswer(optionIndex));
+      elements.options.append(button);
     });
   }
 
-  function renderNavigator(session) {
-    clear(elements.navigator);
+  function renderGrid(session) {
+    clear(elements.grid);
 
     session.items.forEach((item, index) => {
-      const button = createElement("button", {
-        className: "nav-chip",
+      const dot = createElement("button", {
+        className: "q-dot",
         text: String(index + 1),
         attrs: { type: "button", "aria-label": `Ir a la pregunta ${index + 1}` },
       });
 
-      button.classList.toggle("is-answered", item.selectedIndex !== null);
-      button.classList.toggle("is-current", index === session.currentIndex);
-      button.addEventListener("click", () => onNavigate(index));
-
-      elements.navigator.append(button);
+      dot.classList.toggle("answered", item.selectedIndex !== null);
+      dot.classList.toggle("current", index === session.currentIndex);
+      dot.addEventListener("click", () => onNavigate(index));
+      elements.grid.append(dot);
     });
   }
 
+  // En la última pregunta el botón pasa a ser el de entrega. Se asigna con
+  // `onclick` para reemplazar el manejador anterior sin acumular listeners.
+  function renderNextButton(session) {
+    const button = elements.btnNext;
+
+    if (session.isLast) {
+      button.textContent = "Enviar Examen";
+      button.className = "nav-btn btn-submit";
+      button.onclick = onSubmit;
+    } else {
+      button.textContent = "Siguiente";
+      button.className = "nav-btn btn-next";
+      button.onclick = onNext;
+    }
+  }
+
   return {
+    /** Texto de la barra superior: postulante y examen en curso. */
+    setExamInfo(candidate, examTitle) {
+      elements.examInfo.textContent = `${candidate} | ${examTitle}`;
+    },
+
     /** Vuelca el estado de la rendición en pantalla. */
     render(session) {
-      const { currentIndex, total, answeredCount } = session;
-
-      elements.examTitle.textContent = session.examTitle;
-      elements.progress.textContent = `Pregunta ${currentIndex + 1} de ${total} · ${answeredCount} respondidas`;
-      elements.progressBar.style.width = `${(answeredCount / total) * 100}%`;
-
-      elements.questionNumber.textContent = `Pregunta ${currentIndex + 1}`;
-      elements.questionText.textContent = session.currentItem.text;
+      elements.qNumber.textContent = `Pregunta ${session.currentIndex + 1} de ${session.total}`;
+      elements.qText.textContent = session.currentItem.text;
+      elements.progressFill.style.width = `${((session.currentIndex + 1) / session.total) * 100}%`;
 
       renderOptions(session.currentItem);
-      renderNavigator(session);
-
-      elements.buttonPrevious.disabled = session.isFirst;
-      elements.buttonNext.disabled = session.isLast;
-    },
-
-    showError(message) {
-      elements.error.textContent = message;
-    },
-
-    clearError() {
-      elements.error.textContent = "";
+      renderGrid(session);
+      renderNextButton(session);
     },
   };
 }

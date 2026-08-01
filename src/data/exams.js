@@ -17,7 +17,7 @@
 export const EXAMS = [
   {
     id: 1,
-    title: "Examen 1",
+    title: "Examen Final SADJ - Examen 1",
     questions: [
       {
         text: "Según la Normativa Interna, ¿cuál es uno de los deberes generales de todo funcionario del Departamento de Justicia?",
@@ -223,7 +223,7 @@ export const EXAMS = [
   },
   {
     id: 2,
-    title: "Examen 2",
+    title: "Examen Final SADJ - Examen 2",
     questions: [
       {
         text: "Durante un allanamiento supervisado por Fiscalía, se detecta evidencia relacionada con un delito federal. Según el Manual de Procedimientos SADJ, ¿qué corresponde hacer?",
@@ -429,7 +429,7 @@ export const EXAMS = [
   },
   {
     id: 3,
-    title: "Examen 3",
+    title: "Examen Final SADJ - Examen 3",
     questions: [
       {
         text: "Respecto a la información relacionada con investigaciones activas, ¿cuál de las siguientes afirmaciones es correcta?",
